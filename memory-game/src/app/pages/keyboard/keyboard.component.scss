@@ -11,9 +11,25 @@
     max-width: 700px;
     max-height: 400px;
     margin: auto;
+
+    .keyboard-item:hover{
+        cursor: pointer;
+      /*   background-color:  v.$selection-color; */
+    }
+
     .active{
         background-color: v.$keyboard-color;
     }
+
+}
+
+.keyboard-error,
+.disabled-keyboard{
+    pointer-events: none;
+}
+
+.keyboard-error{
+    background-color: v.$keyboard-error-bg;
 }
 
 .start-btn{

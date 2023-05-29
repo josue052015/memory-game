@@ -12,6 +12,10 @@ export class KeyboardComponent implements OnInit {
 
   elements: IKeyboardElement[] = [];
   challengeCounter = 1
+  keyboardActive = false;
+  keysCombination: number[] = []
+  attempsCombination: number[] = []
+  keyboardError = false
 
   ngOnInit(): void {
     this.generateKeyboardElements()
@@ -24,9 +28,18 @@ export class KeyboardComponent implements OnInit {
   }
 
   startChallenge() {
-    
+    this.keysCombination = []
+    this.attempsCombination = []
+    this.setKeyboardSequence()
+  }
+
+  setKeyboardSequence(){
     let randomItem = this.getRandomInt()
-    this.elements[randomItem].isActive = true
+    this.keysCombination.push(randomItem)
+    setTimeout(() => {
+      this.elements[randomItem].isActive = true
+    }, 100);
+    
     setTimeout(() => {
       this.elements[randomItem].isActive = false
       if (this.challengeCounter < 4) {
@@ -37,7 +50,34 @@ export class KeyboardComponent implements OnInit {
         this.challengeCounter = 1
       }
     }, 500);
+  }
 
+  onKeyboardPressed(key: IKeyboardElement){
+    this.activateKey(key);
+    this.attempsCombination.push(key.position)
+
+    if(!(this.isARightAnswer())){
+      this.keyboardError = true;
+      setTimeout(() => {
+        this.attempsCombination = []
+        this.keyboardError = false
+      }, 1000);
+    }
+  }
+
+  activateKey(key: IKeyboardElement){
+    key.isActive = true
+    setTimeout(() => {
+      key.isActive = false
+    }, 300);
+  }
+
+  isARightAnswer(){
+    let isValid = true
+    this.attempsCombination.forEach((element,index) => {
+      if(this.keysCombination[index] !== this.attempsCombination[index]) isValid = false
+    })
+    return isValid
   }
 
   getRandomInt(max: number = 9) {
