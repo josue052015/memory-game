@@ -28,12 +28,6 @@ export class KeyboardComponent implements OnInit {
   }
 
   startChallenge() {
-    this.keysCombination = []
-    this.attempsCombination = []
-    this.setKeyboardSequence()
-  }
-
-  setKeyboardSequence(){
     let randomItem = this.getRandomInt()
     this.keysCombination.push(randomItem)
     setTimeout(() => {
@@ -52,10 +46,11 @@ export class KeyboardComponent implements OnInit {
     }, 500);
   }
 
+
   onKeyboardPressed(key: IKeyboardElement){
     this.activateKey(key);
     this.attempsCombination.push(key.position)
-
+  
     if(!(this.isARightAnswer())){
       this.keyboardError = true;
       setTimeout(() => {
@@ -74,6 +69,7 @@ export class KeyboardComponent implements OnInit {
 
   isARightAnswer(){
     let isValid = true
+    console.log('keysCombination', this.keysCombination)
     this.attempsCombination.forEach((element,index) => {
       if(this.keysCombination[index] !== this.attempsCombination[index]) isValid = false
     })
