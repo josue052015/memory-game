@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { GameStatus } from 'src/app/shared/enums/game-status.enum';
 import { IKeyboardElement } from 'src/app/shared/models/keyboard-element.model';
 
 @Component({
@@ -6,7 +7,9 @@ import { IKeyboardElement } from 'src/app/shared/models/keyboard-element.model';
   templateUrl: './keyboard.component.html',
   styleUrls: ['./keyboard.component.scss']
 })
-export class KeyboardComponent implements OnInit {
+export class KeyboardComponent implements OnInit, OnChanges {
+
+  @Input() gameStatus: any;
 
   constructor() { }
 
@@ -21,10 +24,30 @@ export class KeyboardComponent implements OnInit {
     this.generateKeyboardElements()
   }
 
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes) {
+      switch (changes['gameStatus'].currentValue) {
+        case GameStatus.GameStarted:
+          this.startChallenge()
+          break;
+        case GameStatus.GameOver:
+          this.endChallenge()
+          break;
+      }
+    }
+
+  }
+
   generateKeyboardElements() {
     for (let index = 0; index < 9; index++) {
       this.elements.push({ position: index, isActive: false })
     }
+  }
+
+    endChallenge() {
+    this.keysCombination = []
+    this.attempsCombination = []
+    this.challengeCounter = 1
   }
 
   startChallenge() {
@@ -34,14 +57,14 @@ export class KeyboardComponent implements OnInit {
     setTimeout(() => {
       this.elements[randomItem].isActive = true
     }, 100);
-    
+
     setTimeout(() => {
       this.elements[randomItem].isActive = false
       if (this.challengeCounter < 4) {
         this.challengeCounter += 1
         this.startChallenge()
       }
-      else{
+      else {
         this.challengeCounter = 1
         this.keyboardActive = true
       }
@@ -49,11 +72,11 @@ export class KeyboardComponent implements OnInit {
   }
 
 
-  onKeyboardPressed(key: IKeyboardElement){
+  onKeyboardPressed(key: IKeyboardElement) {
     this.activateKey(key);
     this.attempsCombination.push(key.position)
-  
-    if(!(this.isARightAnswer())){
+
+    if (!this.isARightAnswer()) {
       this.keyboardError = true;
       setTimeout(() => {
         this.attempsCombination = []
@@ -62,17 +85,17 @@ export class KeyboardComponent implements OnInit {
     }
   }
 
-  activateKey(key: IKeyboardElement){
+  activateKey(key: IKeyboardElement) {
     key.isActive = true
     setTimeout(() => {
       key.isActive = false
     }, 300);
   }
 
-  isARightAnswer(){
+  isARightAnswer() {
     let isValid = true
-    this.attempsCombination.forEach((element,index) => {
-      if(this.keysCombination[index] !== this.attempsCombination[index]) isValid = false
+    this.attempsCombination.forEach((element, index) => {
+      if (this.keysCombination[index] !== this.attempsCombination[index]) isValid = false
     })
     return isValid
   }

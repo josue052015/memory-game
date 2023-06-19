@@ -1,2 +1,6 @@
-<app-keyboard></app-keyboard>
+<div class="container content">
+    <app-menu [gameStatus]="gameStatus" (onStartGame)="startGame()"
+    (onGameOver)="endGame()"></app-menu>
+    <app-keyboard [gameStatus]="gameStatus"></app-keyboard>
+</div>
 <router-outlet></router-outlet>

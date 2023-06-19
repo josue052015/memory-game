@@ -1,0 +1,7 @@
+<div class="shadow mb-3 menu">
+    <button type="button" class="btn start-btn" (click)="onStartGame.emit()" 
+    *ngIf="gameStatus == gameStatusEnum.GameOver">Start</button> 
+    <button type="button" class="btn end-btn" (click)="onGameOver.emit()" 
+    *ngIf="gameStatus == gameStatusEnum.GameStarted">End Game</button> 
+</div>
+

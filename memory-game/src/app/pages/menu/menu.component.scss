@@ -1,0 +1,15 @@
+@use '../../../sass/variables.scss' as v;
+
+.start-btn{
+    background-color: v.$main-color;
+    color: #FFF;
+}
+
+.end-btn{
+    background-color: red;
+    color: #FFF;
+}
+
+.menu{
+    min-height: 55px;
+}

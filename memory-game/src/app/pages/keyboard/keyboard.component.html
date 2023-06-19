@@ -1,10 +1,10 @@
-<div class="keyboard-container container d-flex justify-content-center">
-    <button type="button" class="btn start-btn" (click)="startChallenge()">Start</button>
-    <div class="row keyboard shadow" [ngClass]="{'disabled-keyboard': !keyboardActive, 'keyboard-error': keyboardError}">
+
+   <!--  <button type="button" class="btn start-btn" (click)="startChallenge()">Start</button> -->
+    <div class="row m-0 keyboard shadow" [ngClass]="{'disabled-keyboard': !keyboardActive, 'keyboard-error': keyboardError}">
         <div *ngFor="let item of elements" class="col-4 keyboard-item border" 
         [ngClass]="{'active': item.isActive}" (click)="onKeyboardPressed(item)"
         >
         
         </div>
     </div>
-</div>
+
