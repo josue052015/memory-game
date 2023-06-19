@@ -9,18 +9,24 @@ import { GameStatus } from './shared/enums/game-status.enum';
 })
 export class AppComponent {
   title = 'memory-game';
-  attemps = 3
+  attempsRemaining = 3
   difficulty = GameDifficulty.Normal;
   gameStatus = GameStatus.GameOver;
 
   startGame(){
+   
     this.gameStatus = GameStatus.GameStarted;
   }
 
   endGame(){
     this.gameStatus = GameStatus.GameOver;
+    this.attempsRemaining = 3
   }
 
+  handleAttempFailed(){
+    this.attempsRemaining -= 1 
+    if(this.attempsRemaining == 0) this.endGame()
+  }
 }
 
 

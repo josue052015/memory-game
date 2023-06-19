@@ -1,6 +1,8 @@
 <div class="container content">
-    <app-menu [gameStatus]="gameStatus" (onStartGame)="startGame()"
-    (onGameOver)="endGame()"></app-menu>
-    <app-keyboard [gameStatus]="gameStatus"></app-keyboard>
+    <app-menu [gameStatus]="gameStatus" [attempsRemaining]="attempsRemaining"
+     (onStartGame)="startGame()" (onGameOver)="endGame()"></app-menu>
+    <app-keyboard [gameStatus]="gameStatus" [attempsRemaining]="attempsRemaining"
+    (onAttempFailed)="handleAttempFailed()"
+    ></app-keyboard>
 </div>
 <router-outlet></router-outlet>

@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, Output, SimpleChanges, EventEmitter } from '@angular/core';
 import { GameStatus } from 'src/app/shared/enums/game-status.enum';
 import { IKeyboardElement } from 'src/app/shared/models/keyboard-element.model';
 
@@ -10,6 +10,8 @@ import { IKeyboardElement } from 'src/app/shared/models/keyboard-element.model';
 export class KeyboardComponent implements OnInit, OnChanges {
 
   @Input() gameStatus: any;
+  @Input() attempsRemaining: any;
+  @Output() onAttempFailed = new EventEmitter();
 
   constructor() { }
 
@@ -26,7 +28,8 @@ export class KeyboardComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes) {
-      switch (changes['gameStatus'].currentValue) {
+      console.log('changes', changes)
+      switch (changes['gameStatus']?.currentValue) {
         case GameStatus.GameStarted:
           this.startChallenge()
           break;
@@ -48,6 +51,7 @@ export class KeyboardComponent implements OnInit, OnChanges {
     this.keysCombination = []
     this.attempsCombination = []
     this.challengeCounter = 1
+    this.keyboardActive = false
   }
 
   startChallenge() {
@@ -78,6 +82,13 @@ export class KeyboardComponent implements OnInit, OnChanges {
 
     if (!this.isARightAnswer()) {
       this.keyboardError = true;
+      this.onAttempFailed.emit()
+    /*   if(this.attempsRemaining == 0){
+        alert('failed')
+      }
+      else{
+
+      } */
       setTimeout(() => {
         this.attempsCombination = []
         this.keyboardError = false

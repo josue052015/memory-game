@@ -10,6 +10,7 @@ export class MenuComponent implements OnInit {
 
   gameStatusEnum = GameStatus
   @Input() gameStatus: any;
+  @Input()  attempsRemaining: any;
   @Output() onStartGame = new EventEmitter()
   @Output() onGameOver = new EventEmitter()
 
