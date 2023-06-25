@@ -1,5 +1,5 @@
 <div class="container content">
-    <app-menu [gameStatus]="gameStatus" [attempsRemaining]="attempsRemaining" [gameDifficulty]="difficulty"
+    <app-menu [gameStatus]="gameStatus" [attempsRemaining]="attempsRemaining" [gameDifficulty]="difficulty" [counter]="timeCounter"
         (onStartGame)="startGame()" (onGameOver)="endGame()"></app-menu>
     <app-keyboard [gameStatus]="gameStatus" [attempsRemaining]="attempsRemaining"
         (onAttempFailed)="handleAttempFailed()" (onStageCompleted)="handleStageCompleted()"></app-keyboard>

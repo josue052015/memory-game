@@ -10,10 +10,10 @@ import { GameDifficulty } from '../../shared/enums/game-difficulty.enum';
 export class MenuComponent implements OnInit {
 
   gameStatusEnum = GameStatus
-  counter = 0;
   @Input() gameStatus: any;
   @Input() attempsRemaining: any;
   @Input() gameDifficulty: any;
+  @Input() counter: any
   @Output() onStartGame = new EventEmitter()
   @Output() onGameOver = new EventEmitter()
 
@@ -24,37 +24,13 @@ export class MenuComponent implements OnInit {
 
   startGame() {
     this.onStartGame.emit()
-    this.startCounter()
-  }
-
-  endGame() {
-    this.counter = 0;
-    this.onGameOver.emit()
-  }
-
-  startCounter() {
-    switch (this.gameDifficulty) {
-      case GameDifficulty.Easy:
-        this.counter = 30
-        break;
-      case GameDifficulty.Normal:
-        this.counter = 40
-        break;
-      case GameDifficulty.Hard:
-        this.counter = 50
-        break;
-      case GameDifficulty.Insane:
-        this.counter = 60
-        break;
-    }
     this.discountCounter()
-
   }
 
   discountCounter() {
     setTimeout(() => {
       if (this.counter == 0) {
-        this.endGame()
+        this.onGameOver.emit()
       }
       else {
         this.counter -= 1

@@ -67,8 +67,8 @@ export class KeyboardComponent implements OnInit, OnChanges {
 
     setTimeout(() => {
       this.elements[randomItem].isActive = false
-      const stageGenerationCompleted = this.combinationCounter < combinationsLength
-      if (stageGenerationCompleted) {
+      const stageGenerationInProgress = this.combinationCounter < combinationsLength
+      if (stageGenerationInProgress) {
         this.combinationCounter += 1
         this.generateGameStage()
       }
@@ -83,19 +83,16 @@ export class KeyboardComponent implements OnInit, OnChanges {
   onKeyboardPressed(key: IKeyboardElement) {
     this.activateKey(key);
     this.attempsCombination.push(key.position)
-
     switch (this.isARightAnswer()) {
       case true:
         const isStageCompleted = this.attempsCombination.length == this.keysCombination.length;
         if (isStageCompleted) {
-          //TODO: consider this event to future changes on the menu 
           this.onStageCompleted.emit()
           this.keyboardSuccess = true;
           setTimeout(() => {
             this.keyboardSuccess = false;
             this.generateGameStage()
           }, 1000);
-
         }
         break;
       case false:
