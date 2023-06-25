@@ -12,15 +12,18 @@ export class KeyboardComponent implements OnInit, OnChanges {
   @Input() gameStatus: any;
   @Input() attempsRemaining: any;
   @Output() onAttempFailed = new EventEmitter();
+  @Output() onStageCompleted = new EventEmitter();
 
   constructor() { }
 
   elements: IKeyboardElement[] = [];
-  challengeCounter = 1
+  combinationCounter = 1
   keyboardActive = false;
   keysCombination: number[] = []
   attempsCombination: number[] = []
   keyboardError = false
+  keyboardSuccess = false;
+
 
   ngOnInit(): void {
     this.generateKeyboardElements()
@@ -31,7 +34,7 @@ export class KeyboardComponent implements OnInit, OnChanges {
       console.log('changes', changes)
       switch (changes['gameStatus']?.currentValue) {
         case GameStatus.GameStarted:
-          this.startChallenge()
+          this.generateGameStage()
           break;
         case GameStatus.GameOver:
           this.endChallenge()
@@ -47,14 +50,14 @@ export class KeyboardComponent implements OnInit, OnChanges {
     }
   }
 
-    endChallenge() {
+  endChallenge() {
     this.keysCombination = []
     this.attempsCombination = []
-    this.challengeCounter = 1
+    this.combinationCounter = 1
     this.keyboardActive = false
   }
 
-  startChallenge() {
+  generateGameStage(combinationsLength = 4, displayColorTime = 500) {
     this.keyboardActive = false
     let randomItem = this.getRandomInt()
     this.keysCombination.push(randomItem)
@@ -64,15 +67,16 @@ export class KeyboardComponent implements OnInit, OnChanges {
 
     setTimeout(() => {
       this.elements[randomItem].isActive = false
-      if (this.challengeCounter < 4) {
-        this.challengeCounter += 1
-        this.startChallenge()
+      const stageGenerationCompleted = this.combinationCounter < combinationsLength
+      if (stageGenerationCompleted) {
+        this.combinationCounter += 1
+        this.generateGameStage()
       }
       else {
-        this.challengeCounter = 1
+        this.combinationCounter = 1
         this.keyboardActive = true
       }
-    }, 500);
+    }, displayColorTime);
   }
 
 
@@ -80,20 +84,30 @@ export class KeyboardComponent implements OnInit, OnChanges {
     this.activateKey(key);
     this.attempsCombination.push(key.position)
 
-    if (!this.isARightAnswer()) {
-      this.keyboardError = true;
-      this.onAttempFailed.emit()
-    /*   if(this.attempsRemaining == 0){
-        alert('failed')
-      }
-      else{
+    switch (this.isARightAnswer()) {
+      case true:
+        const isStageCompleted = this.attempsCombination.length == this.keysCombination.length;
+        if (isStageCompleted) {
+          //TODO: consider this event to future changes on the menu 
+          this.onStageCompleted.emit()
+          this.keyboardSuccess = true;
+          setTimeout(() => {
+            this.keyboardSuccess = false;
+            this.generateGameStage()
+          }, 1000);
 
-      } */
-      setTimeout(() => {
-        this.attempsCombination = []
-        this.keyboardError = false
-      }, 1000);
+        }
+        break;
+      case false:
+        this.keyboardError = true;
+        this.onAttempFailed.emit()
+        setTimeout(() => {
+          this.attempsCombination = []
+          this.keyboardError = false
+        }, 1000);
+        break;
     }
+
   }
 
   activateKey(key: IKeyboardElement) {
