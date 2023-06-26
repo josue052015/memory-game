@@ -1,7 +1,11 @@
 <div class="container content">
-    <app-menu [gameStatus]="gameStatus" [attempsRemaining]="attempsRemaining" [gameDifficulty]="difficulty" [counter]="timeCounter"
+    <div [ngClass]="{'events-disabled': !menuEventsAllowed}">
+        <app-menu [gameStatus]="gameStatus" [attempsRemaining]="attempsRemaining" [gameDifficulty]="difficulty"
+        [counter]="timeCounter" [score]="currentScore" [highScore]="highScore"
         (onStartGame)="startGame()" (onGameOver)="endGame()"></app-menu>
+    </div>
     <app-keyboard [gameStatus]="gameStatus" [attempsRemaining]="attempsRemaining"
-        (onAttempFailed)="handleAttempFailed()" (onStageCompleted)="handleStageCompleted()"></app-keyboard>
+        (onAttempFailed)="handleAttempFailed()" (onStageCompleted)="handleStageCompleted()"
+        (onStageGenerationCompleted)="handleStageGenerated()"></app-keyboard>
 </div>
 <router-outlet></router-outlet>

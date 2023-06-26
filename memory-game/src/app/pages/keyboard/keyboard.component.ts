@@ -13,6 +13,7 @@ export class KeyboardComponent implements OnInit, OnChanges {
   @Input() attempsRemaining: any;
   @Output() onAttempFailed = new EventEmitter();
   @Output() onStageCompleted = new EventEmitter();
+  @Output() onStageGenerationCompleted = new EventEmitter();
 
   constructor() { }
 
@@ -31,7 +32,6 @@ export class KeyboardComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes) {
-      console.log('changes', changes)
       switch (changes['gameStatus']?.currentValue) {
         case GameStatus.GameStarted:
           this.generateGameStage()
@@ -57,7 +57,7 @@ export class KeyboardComponent implements OnInit, OnChanges {
     this.keyboardActive = false
   }
 
-  generateGameStage(combinationsLength = 4, displayColorTime = 500) {
+  generateGameStage(combinationsLength = 2, displayColorTime = 500) {
     this.keyboardActive = false
     let randomItem = this.getRandomInt()
     this.keysCombination.push(randomItem)
@@ -75,6 +75,7 @@ export class KeyboardComponent implements OnInit, OnChanges {
       else {
         this.combinationCounter = 1
         this.keyboardActive = true
+        this.onStageGenerationCompleted.emit()
       }
     }, displayColorTime);
   }
@@ -87,9 +88,9 @@ export class KeyboardComponent implements OnInit, OnChanges {
       case true:
         const isStageCompleted = this.attempsCombination.length == this.keysCombination.length;
         if (isStageCompleted) {
-          this.onStageCompleted.emit()
           this.keyboardSuccess = true;
           setTimeout(() => {
+            this.onStageCompleted.emit()
             this.keyboardSuccess = false;
             this.generateGameStage()
           }, 1000);

@@ -14,28 +14,30 @@ export class AppComponent {
   difficulty = GameDifficulty.Normal;
   gameStatus = GameStatus.GameOver;
   currentScore = 0;
-  timeCounter = this.setCounter();
+  timeCounter = 0;
+  menuEventsAllowed = true;
   highScore = localStorage.getItem('highScore')
 
-  setCounter(): number {
+  setCounter(){
     switch (this.difficulty) {
       case GameDifficulty.Easy:
-        return 30
+        this.timeCounter =  30
         break;
       case GameDifficulty.Normal:
-        return 40
+        this.timeCounter =  40
         break;
       case GameDifficulty.Hard:
-        return 50
+        this.timeCounter =  50
         break;
       case GameDifficulty.Insane:
-        return 60
+        this.timeCounter =  60
         break;
     }
   }
 
   startGame() {
-    this.gameStatus = GameStatus.GameStarted; 
+    this.gameStatus = GameStatus.GameStarted;
+    this.menuEventsAllowed = false
   }
 
   endGame() {
@@ -56,6 +58,11 @@ export class AppComponent {
     if (this.currentScore > Number(highScore)) {
       localStorage.setItem('highScore', this.currentScore.toString())
     }
+  }
+
+  handleStageGenerated() {
+    this.menuEventsAllowed = true;
+    this.setCounter();
   }
 }
 
