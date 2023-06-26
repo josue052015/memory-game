@@ -57,7 +57,7 @@ export class KeyboardComponent implements OnInit, OnChanges {
     this.keyboardActive = false
   }
 
-  generateGameStage(combinationsLength = 2, displayColorTime = 500) {
+  generateGameStage(combinationsLength = 4, displayColorTime = 500) {
     this.keyboardActive = false
     let randomItem = this.getRandomInt()
     this.keysCombination.push(randomItem)

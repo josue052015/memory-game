@@ -5,7 +5,7 @@
 .keyboard{
     width: 100%;
     height: 400px;
-  
+   
     .keyboard-item:hover{
         cursor: pointer;
       /*   background-color:  v.$selection-color; */
@@ -23,10 +23,10 @@
 }
 
 .keyboard-error{
-    background-color: v.$keyboard-error-bg;
+    background-color: v.$keyboard-error-bg !important; 
 }
 
 .keyboard-success{
-    background-color: v.$keyboard-success-bg;
+    background-color: v.$keyboard-success-bg !important;
 }
 

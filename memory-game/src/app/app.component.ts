@@ -56,6 +56,7 @@ export class AppComponent {
     this.currentScore += 50
     const highScore = localStorage.getItem('highScore')
     if (this.currentScore > Number(highScore)) {
+      this.highScore = this.currentScore.toString()
       localStorage.setItem('highScore', this.currentScore.toString())
     }
   }

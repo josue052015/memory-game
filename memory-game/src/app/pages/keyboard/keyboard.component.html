@@ -1,6 +1,6 @@
 
    <!--  <button type="button" class="btn start-btn" (click)="startChallenge()">Start</button> -->
-    <div class="row m-0 keyboard shadow" [ngClass]="{'disabled-keyboard': !keyboardActive, 'keyboard-error': keyboardError, 'keyboard-success': keyboardSuccess}">
+    <div class="row m-0 keyboard bg-white shadow" [ngClass]="{'disabled-keyboard': !keyboardActive, 'keyboard-error': keyboardError, 'keyboard-success': keyboardSuccess}">
         <div *ngFor="let item of elements" class="col-4 keyboard-item border" 
         [ngClass]="{'active': item.isActive}" (click)="onKeyboardPressed(item)"
         >
