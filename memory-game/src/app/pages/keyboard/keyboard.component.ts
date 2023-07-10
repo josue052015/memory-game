@@ -51,8 +51,7 @@ export class KeyboardComponent implements OnInit, OnChanges {
   }
 
   endChallenge() {
-    this.keysCombination = []
-    this.attempsCombination = []
+    this.clearStageData()
     this.combinationCounter = 1
     this.keyboardActive = false
   }
@@ -89,8 +88,9 @@ export class KeyboardComponent implements OnInit, OnChanges {
         const isStageCompleted = this.attempsCombination.length == this.keysCombination.length;
         if (isStageCompleted) {
           this.keyboardSuccess = true;
+          this.onStageCompleted.emit()
           setTimeout(() => {
-            this.onStageCompleted.emit()
+            this.clearStageData();
             this.keyboardSuccess = false;
             this.generateGameStage()
           }, 1000);
@@ -126,4 +126,10 @@ export class KeyboardComponent implements OnInit, OnChanges {
   getRandomInt(max: number = 9) {
     return Math.floor(Math.random() * max);
   }
+
+  clearStageData() {
+    this.keysCombination = []
+    this.attempsCombination = []
+  }
+
 }

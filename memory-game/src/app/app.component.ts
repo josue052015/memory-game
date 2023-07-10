@@ -36,8 +36,8 @@ export class AppComponent {
   }
 
   startGame() {
-    this.gameStatus = GameStatus.GameStarted;
     this.menuEventsAllowed = false
+    this.gameStatus = GameStatus.GameStarted;
   }
 
   endGame() {
@@ -53,6 +53,7 @@ export class AppComponent {
   }
 
   handleStageCompleted() {
+    this.menuEventsAllowed = false;
     this.currentScore += 50
     const highScore = localStorage.getItem('highScore')
     if (this.currentScore > Number(highScore)) {

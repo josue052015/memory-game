@@ -1,7 +1,7 @@
 <div class="container content">
     <div [ngClass]="{'events-disabled': !menuEventsAllowed}">
         <app-menu [gameStatus]="gameStatus" [attempsRemaining]="attempsRemaining" [gameDifficulty]="difficulty"
-        [counter]="timeCounter" [score]="currentScore" [highScore]="highScore"
+        [counter]="timeCounter" [score]="currentScore" [highScore]="highScore" [menuEventsAllowed]="menuEventsAllowed"
         (onStartGame)="startGame()" (onGameOver)="endGame()"></app-menu>
     </div>
     <app-keyboard [gameStatus]="gameStatus" [attempsRemaining]="attempsRemaining"

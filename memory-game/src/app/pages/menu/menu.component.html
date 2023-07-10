@@ -9,6 +9,12 @@
             *ngIf="gameStatus == gameStatusEnum.GameOver">Start</button>
         <button type="button" class="btn end-btn" (click)="endGame()"
             *ngIf="gameStatus == gameStatusEnum.GameStarted">End Game</button>
+        <div class="mb-2 choose-difficulty form-floating">
+            <select class="form-select" id="difficulty-select">
+                <option  *ngFor="let item of gameDifficultyValues">{{item | gameDifficultyValue}}</option>
+            </select>
+            <label for="difficulty-select">Select difficulty</label>
+        </div>
         <div class="d-flex"><i class="fa-solid fa-heart attemp-remaining-icon me-1"
                 *ngFor="let _ of [].constructor(attempsRemaining)"></i></div>
     </div>
