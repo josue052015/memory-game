@@ -2,9 +2,9 @@
     <div [ngClass]="{'events-disabled': !menuEventsAllowed}">
         <app-menu [gameStatus]="gameStatus" [attempsRemaining]="attempsRemaining" [gameDifficulty]="difficulty"
         [counter]="timeCounter" [score]="currentScore" [highScore]="highScore" [menuEventsAllowed]="menuEventsAllowed"
-        (onStartGame)="startGame()" (onGameOver)="endGame()"></app-menu>
+        (onStartGame)="startGame()" (onGameOver)="endGame()" (onDifficultyChange)="handleGameDifficultyChanged($event.currentTarget.value)"></app-menu>
     </div>
-    <app-keyboard [gameStatus]="gameStatus" [attempsRemaining]="attempsRemaining"
+    <app-keyboard [gameStatus]="gameStatus" [attempsRemaining]="attempsRemaining" [gameDifficulty]="difficulty"
         (onAttempFailed)="handleAttempFailed()" (onStageCompleted)="handleStageCompleted()"
         (onStageGenerationCompleted)="handleStageGenerated()"></app-keyboard>
 </div>

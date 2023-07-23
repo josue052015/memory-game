@@ -10,8 +10,8 @@
         <button type="button" class="btn end-btn" (click)="endGame()"
             *ngIf="gameStatus == gameStatusEnum.GameStarted">End Game</button>
         <div class="mb-2 choose-difficulty form-floating">
-            <select class="form-select" id="difficulty-select">
-                <option  *ngFor="let item of gameDifficultyValues">{{item | gameDifficultyValue}}</option>
+            <select class="form-select" id="difficulty-select" (change)="onDifficultyChange.emit($event)">
+                <option *ngFor="let item of gameDifficultyValues" [selected]="item == gameDifficulty" [value]="item">{{item | gameDifficultyValue}}</option>
             </select>
             <label for="difficulty-select">Select difficulty</label>
         </div>

@@ -22,6 +22,7 @@ export class MenuComponent implements OnInit, OnChanges {
   @Input() menuEventsAllowed: any;
   @Output() onStartGame = new EventEmitter()
   @Output() onGameOver = new EventEmitter()
+  @Output() onDifficultyChange = new EventEmitter()
 
   constructor() { }
 

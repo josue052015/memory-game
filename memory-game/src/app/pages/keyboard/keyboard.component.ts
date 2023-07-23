@@ -1,4 +1,5 @@
 import { Component, Input, OnChanges, OnInit, Output, SimpleChanges, EventEmitter } from '@angular/core';
+import { GameDifficulty } from 'src/app/shared/enums/game-difficulty.enum';
 import { GameStatus } from 'src/app/shared/enums/game-status.enum';
 import { IKeyboardElement } from 'src/app/shared/models/keyboard-element.model';
 
@@ -10,6 +11,7 @@ import { IKeyboardElement } from 'src/app/shared/models/keyboard-element.model';
 export class KeyboardComponent implements OnInit, OnChanges {
 
   @Input() gameStatus: any;
+  @Input() gameDifficulty: any;
   @Input() attempsRemaining: any;
   @Output() onAttempFailed = new EventEmitter();
   @Output() onStageCompleted = new EventEmitter();
@@ -34,7 +36,7 @@ export class KeyboardComponent implements OnInit, OnChanges {
     if (changes) {
       switch (changes['gameStatus']?.currentValue) {
         case GameStatus.GameStarted:
-          this.generateGameStage()
+          this.startChallenge()
           break;
         case GameStatus.GameOver:
           this.endChallenge()
@@ -42,6 +44,23 @@ export class KeyboardComponent implements OnInit, OnChanges {
       }
     }
 
+  }
+
+  startChallenge() {  
+    switch (Number(this.gameDifficulty)) {
+      case GameDifficulty.Easy:
+        this.generateGameStage(4, 700)
+        break
+      case GameDifficulty.Normal:
+        this.generateGameStage(4, 500)
+        break;
+      case GameDifficulty.Hard:
+        this.generateGameStage(6, 500)
+        break;
+      case GameDifficulty.Insane:
+        this.generateGameStage(10, 500)
+        break;
+    }
   }
 
   generateKeyboardElements() {
@@ -56,7 +75,7 @@ export class KeyboardComponent implements OnInit, OnChanges {
     this.keyboardActive = false
   }
 
-  generateGameStage(combinationsLength = 4, displayColorTime = 500) {
+  generateGameStage(combinationsLength: number = 4, displayColorTime:number = 500) {
     this.keyboardActive = false
     let randomItem = this.getRandomInt()
     this.keysCombination.push(randomItem)
@@ -69,7 +88,7 @@ export class KeyboardComponent implements OnInit, OnChanges {
       const stageGenerationInProgress = this.combinationCounter < combinationsLength
       if (stageGenerationInProgress) {
         this.combinationCounter += 1
-        this.generateGameStage()
+        this.generateGameStage(combinationsLength,displayColorTime)
       }
       else {
         this.combinationCounter = 1

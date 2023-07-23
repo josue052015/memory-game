@@ -11,26 +11,28 @@ export class AppComponent {
 
   title = 'memory-game';
   attempsRemaining = 3
-  difficulty = GameDifficulty.Normal;
+  difficulty = localStorage.getItem('gameDifficulty')
+    ? localStorage.getItem('gameDifficulty')
+    : GameDifficulty.Normal;
   gameStatus = GameStatus.GameOver;
   currentScore = 0;
   timeCounter = 0;
   menuEventsAllowed = true;
   highScore = localStorage.getItem('highScore')
 
-  setCounter(){
+  setCounter() {
     switch (this.difficulty) {
       case GameDifficulty.Easy:
-        this.timeCounter =  30
+        this.timeCounter = 30
         break;
       case GameDifficulty.Normal:
-        this.timeCounter =  40
+        this.timeCounter = 40
         break;
       case GameDifficulty.Hard:
-        this.timeCounter =  50
+        this.timeCounter = 50
         break;
       case GameDifficulty.Insane:
-        this.timeCounter =  60
+        this.timeCounter = 60
         break;
     }
   }
@@ -65,6 +67,10 @@ export class AppComponent {
   handleStageGenerated() {
     this.menuEventsAllowed = true;
     this.setCounter();
+  }
+
+  handleGameDifficultyChanged(difficulty: any) {
+     localStorage.setItem('gameDifficulty', difficulty)
   }
 }
 
