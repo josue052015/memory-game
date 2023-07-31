@@ -6,6 +6,7 @@ import { AppComponent } from './app.component';
 import { KeyboardComponent } from './pages/keyboard/keyboard.component';
 import { MenuComponent } from './pages/menu/menu.component';
 import { GameDifficultyValuePipe } from './shared/pipes/game-difficulty-value.pipe';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,9 @@ import { GameDifficultyValuePipe } from './shared/pipes/game-difficulty-value.pi
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    ReactiveFormsModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -7,7 +7,7 @@ import { GameStatus } from './shared/enums/game-status.enum';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
 
   title = 'memory-game';
   attempsRemaining = 3
@@ -20,6 +20,11 @@ export class AppComponent {
   menuEventsAllowed = true;
   highScore = localStorage.getItem('highScore')
 
+  ngOnInit(): void {
+    if(localStorage.getItem('currentColor')){
+      document.documentElement.style.setProperty('--main-color', localStorage.getItem('currentColor'))
+    }
+  }
   setCounter() {
     switch (this.difficulty) {
       case GameDifficulty.Easy:
@@ -70,6 +75,7 @@ export class AppComponent {
   }
 
   handleGameDifficultyChanged(difficulty: any) {
+    this.difficulty = difficulty
      localStorage.setItem('gameDifficulty', difficulty)
   }
 }

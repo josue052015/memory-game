@@ -1,21 +1,30 @@
-<div class="shadow bg-white px-3 mb-3">
+<div class="shadow bg-white p-3 mb-3">
+    <div class="menu-row justify-content-center mb-2">
+      <span class="game-title">Memory Game</span>
+    </div>
+    <div class="menu-row justify-content-center">
+        <div class="mb-2 choose-difficulty form-floating">
+            <select class="form-select" id="difficulty-select" (change)="onDifficultyChange.emit($event)">
+                <option *ngFor="let item of gameDifficultyValues" [selected]="item == gameDifficulty" [value]="item">
+                    {{item | gameDifficultyValue}}</option>
+            </select>
+            <label for="difficulty-select">Select difficulty</label>
+        </div>
+    </div>
     <div class="menu-row">
         <div class="d-flex">Score: {{score}}</div>
         <div class="d-flex">Best: {{highScore ? highScore : '--'}}</div>
         <div class="d-flex">Time: {{currentCounter ? currentCounter : '--'}}</div>
     </div>
+
     <div class="menu-row">
         <button type="button" class="btn start-btn" (click)="startGame()"
             *ngIf="gameStatus == gameStatusEnum.GameOver">Start</button>
         <button type="button" class="btn end-btn" (click)="endGame()"
             *ngIf="gameStatus == gameStatusEnum.GameStarted">End Game</button>
-        <div class="mb-2 choose-difficulty form-floating">
-            <select class="form-select" id="difficulty-select" (change)="onDifficultyChange.emit($event)">
-                <option *ngFor="let item of gameDifficultyValues" [selected]="item == gameDifficulty" [value]="item">{{item | gameDifficultyValue}}</option>
-            </select>
-            <label for="difficulty-select">Select difficulty</label>
-        </div>
-        <div class="d-flex"><i class="fa-solid fa-heart attemp-remaining-icon me-1"
+        <input type="color" class="color-picker"  id="color-picker-input" [(ngModel)]="currentColor" (ngModelChange)="selectColor()"/>
+        <span class="fa-solid fa-palette color-picker-icon" (click)="showColorOptions()"></span>
+        <div class="d-flex attemps-remaining-container"><i class="fa-solid fa-heart attemp-remaining-icon me-1"
                 *ngFor="let _ of [].constructor(attempsRemaining)"></i></div>
     </div>
 </div>

@@ -1,7 +1,18 @@
 @use '../../../sass/variables.scss' as v;
 
+#color-picker-input{
+    opacity: 0;
+    position: absolute;
+    left: 50%;
+    pointer-events: none;
+}
+
+.color-picker-icon{
+   cursor: pointer;
+}
+
 .start-btn{
-    background-color: #30A2FF;
+    background-color: var(--main-color);
     color: #FFF;
 }
 
@@ -18,11 +29,25 @@
   
 }
 
+.color-picker-icon,
 .attemp-remaining-icon{
     font-size: 1.5em;
-    color: v.$main-color;
+    color: var(--main-color);
 }
 
 .choose-difficulty{
     width: 200px;
 }
+
+.game-title{
+    font-family: 'Press Start 2P', cursive;
+    font-weight: 600;
+    font-size: 30px;
+    color: var(--main-color);
+}
+
+.attemps-remaining-container{
+    width: 80px;
+    justify-content: end;
+}
+

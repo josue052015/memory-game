@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { GameStatus } from 'src/app/shared/enums/game-status.enum';
 import { GameDifficulty } from '../../shared/enums/game-difficulty.enum';
+import { Subject, debounceTime } from 'rxjs';
 
 @Component({
   selector: 'app-menu',
@@ -11,6 +12,7 @@ export class MenuComponent implements OnInit, OnChanges {
 
   gameStatusEnum = GameStatus
   currentCounter = 0
+  currentColor = localStorage.getItem('currentColor') ? localStorage.getItem('currentColor') : "";
   setTimeoutsIds: any[] = []
   gameDifficultyValues = Object.values(GameDifficulty).filter(itemKey => typeof itemKey === 'number');
   @Input() gameStatus: any;
@@ -23,10 +25,12 @@ export class MenuComponent implements OnInit, OnChanges {
   @Output() onStartGame = new EventEmitter()
   @Output() onGameOver = new EventEmitter()
   @Output() onDifficultyChange = new EventEmitter()
+  colorPickerDebouncer: Subject<any> = new Subject()
 
   constructor() { }
 
   ngOnInit(): void {
+    this.onColorPickerDebounce()
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -72,6 +76,27 @@ export class MenuComponent implements OnInit, OnChanges {
       clearTimeout(this.setTimeoutsIds[i]);
     }
     this.setTimeoutsIds = []
+  }
+
+  showColorOptions(){
+    document.getElementById("color-picker-input")?.click()
+  }
+
+  selectColor(){
+    this.colorPickerDebouncer.next(this.currentColor)
+  }
+
+  onColorPickerDebounce(){
+    this.colorPickerDebouncer.pipe(
+      debounceTime(300)
+    ).subscribe( data => {
+      this.changeColor()
+    })
+  }
+
+  changeColor(){
+    document.documentElement.style.setProperty('--main-color', this.currentColor)
+    localStorage.setItem('currentColor', String(this.currentColor))
   }
 
 }
